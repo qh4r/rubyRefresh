@@ -20,6 +20,15 @@ string = String.new('utworzone konsturktorem')
 
 puts string
 
+zmiana = "Korol karol kupil \n krulowej katolinie \n korale i korale";
+
+zmiana['korale'] = 'rózgę' #WYMIENIA PIERWSZE WYSTAPIENIE DOPASOWANEGO SLOWA W StRINGU
+
+puts zmiana.lines.to_a #TWORZY TABLICE Z LINII
+
+
+puts zmiana
+
 # imie = gets.chomp #samo gets tez dziala
 
 # puts imie
@@ -112,3 +121,55 @@ tablica.select! {|t| t.even?} #fitruje == %2 de fakto
 
 puts "\npo filtrze modulo"
 puts tablica
+
+#uzywanie stringow jako kluczy slownikow
+dane = {'name' => 'Rafał', 'surname' => 'Kucharski', 'age' => 25}
+
+puts dane['surname']
+
+#uzywanie symboli jako kluczy
+dane2 = {name: 'Rafał', surname: 'Kucharski'}
+
+puts dane2[:name]
+
+dane2[:age] = 25
+dane2[:address] = {street: "Sobieskiego", flat: 4}
+dane2.delete(:name)
+puts dane2;
+
+dane2.each {
+  |key, value| puts "#{key} => #{value}"
+  dane2.delete(key) if key == :age #mozna odwrocic if gdy tylko 1 sprawdzenie
+  #DA SIE USUWAC ELEMEMNTY PO KTORYCH SIE ItERUJE
+}
+
+puts "#{dane2} \n #{dane2.include?(:dupa)}, #{dane2.include?(:address)}"
+
+
+ratings = Hash.new(0) #tworzy hashtable z domyslna wartoscia dla elementu ustawiona na 0
+books = {
+    "Gra o tron" => :super,
+    "50 twarzy graya" => :dno,
+    "Harry potter" => :super,
+    "Taniec ze smokami" => :spoko
+}
+books.values.each { |rate| ratings[rate] += 1} #wypelnia slownik na podstawie innego nice!
+
+puts ratings
+print "adsasd"
+#print nie dodanje znaku nowej lini tak jak puts
+print "asdsada"
+
+#taka petla
+loop {
+  break #żeby nie wkurzala
+  puts "pisz"
+  x = gets.chomp
+  puts "napisales: #{x}"
+  break if x == 'exit'
+}
+
+puts Dir.entries('/') #wypisuje
+
+#File.read('plik')
+# FileUtils.cp('skad','dokad')
