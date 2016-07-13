@@ -54,9 +54,15 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
+  #TO SAMO
+  # get '/', to: 'pages#home'
+  root 'pages#home'
+
   # odpowiednik
   # get('start/home', to: 'start#home')
-  get 'start/home', to: 'start#home'
 
-  get 'start/next', to: 'start#next'
+  # get 'pages/home', to: 'pages#home'
+
+  get 'about', to: 'pages#about'
+
 end
