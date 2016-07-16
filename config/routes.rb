@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+
+  #ODPALONO -----------
+  #rails generate scaffold Article title:string description:text
+  #rake db:migrate
+  #--------------------
+
+  resources :articles
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
