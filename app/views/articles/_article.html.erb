@@ -1,0 +1,4 @@
+<li> <%= link_to article.title, article_path(article) %>
+  <%= link_to "Edytuj", edit_article_path(article) %>
+  <%= link_to "Usuń", article_path(article), method: :delete, data: {confirm: "Czy napewno chcesz usunąć?"}%>
+</li>
