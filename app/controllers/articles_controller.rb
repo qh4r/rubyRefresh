@@ -12,7 +12,7 @@ class ArticlesController < ApplicationController
     #p params
     #render plain: params[:article]
 
-    @article = Article.new(article_parased)
+    @article = Article.new(article_parsed)
     if @article.save
       flash[:notice] = "Utworzono z powodzeniem"
       redirect_to article_path(@article)
@@ -35,9 +35,37 @@ class ArticlesController < ApplicationController
     render :index
   end
 
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def destroy
+    if (@article = Article.destroy(params[:id]))
+      flash[:notice] = "Usunięto z powodzeniem"
+    else
+      flash[:notice] = "Błąd podczas usuwania"
+    end
+    redirect_to articles_path
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    # chałupnicza metoda
+    # article_parsed.each { |k, v| @article[k] = v }
+    # if @article.save
+    #   flash[:notice] = "Poprawnie zaktualizowano pozycję"
+    # dobra metoda
+    if @article.update article_parsed
+      flash[:notice] = "Poprawnie zaktualizowano pozycję"
+      redirect_to article_path(@article)
+    else
+      render :edit
+    end
+  end
+
   private
 
-  def article_parased
+  def article_parsed
     output = params.require(:article).permit(:title, :description)
     p "PROCESSING ====>"
     p output
