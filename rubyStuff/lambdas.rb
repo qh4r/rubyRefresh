@@ -46,3 +46,12 @@ p as_arg_exp(2, 1, eqt)
 
 # TO NIE ZADZIALA ARGUMENT EQT JEST WYMAGANY
 #p asArgEp(6,3) {|a,b| a+b}
+
+#CIEKAWE RZECZY:
+
+# send dziala jak call w js - wywoluje funkcje podana jako 1 argument
+p [2,4,2,4].send('reduce',0) {|a,b| a+b} #12
+#zamiast stringu mozna podac symbol
+p [2,4,2,4].send(:reduce,0) {|a,b| a+b} #12
+p 1.send('+',2) #3
+p 1.send(:+,2) #3

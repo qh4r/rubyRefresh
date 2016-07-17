@@ -2,12 +2,31 @@
 <html>
 <head>
   <title>RailsStart</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<!--DISPLAY FLASHA-->
+<% p flash.methods %>
+<!--COS JAK ?. w C# -->
+<% if flash&.keys %>
+    <ul>
+      <% flash.each do |name, msg| %>
+          <% if (msg.is_a?(Hash)) %>
+              <ul>
+                <% msg.each do |k, v| %>
+                    <li> <%= "#{k.upcase} => #{v.is_a?(Array) ? v.join(", ") : v}"%></li>
+                <% end %>
+              </ul>
+          <% else %>
+              <li><%= msg %></li>
+          <% end %>
 
+
+      <% end %>
+    </ul>
+<% end %>
 <%= yield %>
 
 </body>

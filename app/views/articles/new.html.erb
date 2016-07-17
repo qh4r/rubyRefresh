@@ -1,0 +1,21 @@
+<h1>Nowy artykół</h1>
+
+<% if @article.errors.any? %>
+    <ul>
+      <% @article.errors.full_messages.each do |s| %>
+          <li> <%= s %></li>
+      <% end %>
+    </ul>
+<% end %>
+<%= form_for @article do |a| %>
+    <p>
+      <%= a.label "Tytuł", class: "labelka tytol" %>
+      <%= a.text_field :title, class: "textbox tytol" %>
+    </p>
+    <p>
+      <%= a.label :Opis %>
+      <%= a.text_field :description %>
+    </p>
+    <%= a.submit "Utwórz" %>
+    <%= link_to "Wróć", articles_path %>
+<% end %>
