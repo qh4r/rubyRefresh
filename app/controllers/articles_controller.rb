@@ -1,4 +1,7 @@
 class ArticlesController < ApplicationController
+  # before filter to to samo co before_action ale sprzed rails 4.0
+  # before_filter :set_article_param, only: [:edit, :update, :show]
+  before_action :set_article_param, only: [:edit, :update, :show]
 
   def new
     @article = Article.new
@@ -23,11 +26,8 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.find(params[:id])
+    # set_article_param
     render :show
-  rescue
-    # render json: {message: "no record"}
-    not_found
   end
 
   def index
@@ -36,7 +36,7 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
+    # set_article_param
   end
 
   def destroy
@@ -49,7 +49,7 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    @article = Article.find(params[:id])
+    # set_article_param
     # chałupnicza metoda
     # article_parsed.each { |k, v| @article[k] = v }
     # if @article.save
@@ -64,6 +64,13 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+  def set_article_param
+    @article = Article.find(params[:id])
+  rescue
+    # render json: {message: "no record"}
+    not_found
+  end
 
   def article_parsed
     output = params.require(:article).permit(:title, :description)
