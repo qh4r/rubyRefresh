@@ -10,7 +10,8 @@
 <!--DISPLAY FLASHA-->
 <% p flash.methods %>
 <!--COS JAK ?. w C# -->
-<% if flash&.keys %>
+<!--flash&.keys -&#45;&#45; nie dziala na heroku-->
+<% if flash && flash.keys %>
     <ul>
       <% flash.each do |name, msg| %>
           <% if (msg.is_a?(Hash)) %>
