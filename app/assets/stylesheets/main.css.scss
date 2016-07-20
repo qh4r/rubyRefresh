@@ -1,3 +1,25 @@
+$navbar-default-bg: #80d0bd;
+
 $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+#logo {
+  fleat: left;
+  font: {
+    size: 1.7rem;
+    weight: bold;
+  }
+  color: #EEE;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+
+  &:hover {
+    color: #EEE;
+    text-decoration: none;
+  }
+}
+
+.center {
+  text-align: center;
+}

@@ -1,11 +1,17 @@
-<h1>Hi form home</h1>
+<div class="jumbotron center">
 
-<!--<a href="/start/next">Go further</a>-->
+  <h1>Witamy na blogu</h1>
 
-<!--start_home_path jest generowane przez rails
-mozna zrobic rake routes zeby podejrzec sciezki
-oprocz path moze byc tez url-->
+  <!--<a href="/start/next">Go further</a>-->
 
-<%= link_to 'Go further', about_path %>
+  <!--start_home_path jest generowane przez rails
+  mozna zrobic rake routes zeby podejrzec sciezki
+  oprocz path moze byc tez url-->
 
-<%= link_to "Artykuły", articles_path %>
+  <%= link_to 'Zarejestruj się!', '#', class:[:btn, 'btn-info', 'btn-lg']%>
+
+  <%= link_to 'Dalej!', about_path , class: 'btn btn-primary btn-lg'%>
+
+  <%= link_to 'Artykuły', articles_path, class:[:btn, 'btn-primary', 'btn-lg']%>
+
+</div>
