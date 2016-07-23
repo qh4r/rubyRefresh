@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
 
     @article = Article.new(article_parsed)
     if @article.save
-      flash[:notice] = "Utworzono z powodzeniem"
+      flash[:success] = "Utworzono z powodzeniem"
       redirect_to article_path(@article)
     else
       # flash[:error] = @article.errors.as_json
@@ -41,9 +41,9 @@ class ArticlesController < ApplicationController
 
   def destroy
     if (@article = Article.destroy(params[:id]))
-      flash[:notice] = "Usunięto z powodzeniem"
+      flash[:success] = "Usunięto z powodzeniem"
     else
-      flash[:notice] = "Błąd podczas usuwania"
+      flash[:success] = "Błąd podczas usuwania"
     end
     redirect_to articles_path
   end
@@ -56,7 +56,7 @@ class ArticlesController < ApplicationController
     #   flash[:notice] = "Poprawnie zaktualizowano pozycję"
     # dobra metoda
     if @article.update article_parsed
-      flash[:notice] = "Poprawnie zaktualizowano pozycję"
+      flash[:info] = "Poprawnie zaktualizowano pozycję"
       redirect_to article_path(@article)
     else
       render :edit

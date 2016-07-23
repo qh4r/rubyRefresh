@@ -1,11 +1,12 @@
-  <h1>Artykuły</h1>
+  <h1 class="center">Artykuły</h1>
+  <div class="row">
 <% if (@articles.any?) %>
-    <ul>
       <!--mozna zamiast tego ->
       < %= render @articles % >
       i to wystarczy ale ta dluzsza forma mozna jeszcze przkazac locales:-->
       <%= render partial: :article, collection: @articles %>
-    </ul>
 <% end %>
-
-<%= link_to "Nowy", new_article_path %>
+    </div>
+<div class="col-xs-8 col-xs-offset-2">
+<%= link_to "Nowy", new_article_path, class: 'btn btn-success' %>
+</div>

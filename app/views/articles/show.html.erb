@@ -1,9 +1,12 @@
-<h1>Artykuł</h1>
+<h2 class="center">Tytuł: <%= @article.title %></h2>
 
-<h2>Tytuł: <%= @article.title %></h2>
+<div class="well col-xs-8 col-xs-offset-2">
+  <h4 class="center"><strong>Opis:</strong></h4>
+  <hr>
+  <%= simple_format(@article.description) %>
+</div>
+<div class="col-xs-8 col-xs-offset-2">
+  <%= link_to "Wróć", articles_path, class: 'btn btn-info' %>
+  <%= link_to "Edytuj", edit_article_path(@article), class: 'btn btn-primary' %>
+</div>
 
-<p>
-  <%= @article.description %>
-</p>
-
-<%= link_to "Wróć", articles_path %>
