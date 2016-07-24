@@ -1,4 +1,5 @@
-eqt = lambda {|a, b| a+ b }
+# eqt = lambda {|a, b| a+ b }
+eqt = -> (a ,b) { a + b}
 
 def double_exp(a, b)
   yield(a,b) * 2
@@ -55,3 +56,11 @@ p [2,4,2,4].send('reduce',0) {|a,b| a+b} #12
 p [2,4,2,4].send(:reduce,0) {|a,b| a+b} #12
 p 1.send('+',2) #3
 p 1.send(:+,2) #3
+
+
+#INNY SPOSOB NA ZAPIS LAMBDY
+# ROWNOWAZNY Z lambda { |a, b| a + b }
+short = ->(a, b) { a + b }
+puts short.call(2, 3)
+
+
