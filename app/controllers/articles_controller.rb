@@ -16,11 +16,15 @@ class ArticlesController < ApplicationController
     #render plain: params[:article]
 
     @article = Article.new(article_parsed)
+    @article.user = User.first
     if @article.save
       flash[:success] = "Utworzono z powodzeniem"
       redirect_to article_path(@article)
     else
       # flash[:error] = @article.errors.as_json
+      # RENDER Z SYMBOLEM ODNOSI SIE TYLKO DO WIDOKU
+      # NIE WYWOLUJE METODY O TAKIEJ NAZWIE
+      # WYWOLANIE METODY W TYM WYPADKU TO new lub self.new
       render :new
     end
   end
