@@ -67,4 +67,12 @@ Rails.application.routes.draw do
   # get 'pages/home', to: 'pages#home'
 
   get 'about', to: 'pages#about'
+
+  get 'signup', to: 'users#new'
+
+  #to podejscie tez dziala
+  # post 'signup', to: 'users#create'
+
+  resource :users, except: ['new']
+
 end
