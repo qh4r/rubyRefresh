@@ -73,6 +73,8 @@ Rails.application.routes.draw do
   #to podejscie tez dziala
   # post 'signup', to: 'users#create'
 
-  resource :users, except: ['new']
+  #MUSI BYC LICZBA MNOGA - POJEDYNCZA DAJE ROUTY BEZ ID
+  resources :users, except: ['new']
 
+  resource :users, only: [:update, :create]
 end
