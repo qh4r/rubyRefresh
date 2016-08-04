@@ -1,0 +1,5 @@
+<h1 class="center">Użytkownicy</h1>
+
+<% @users.each do |u| %>
+<%= render 'users/user_stamp', user: u %>
+<% end %>

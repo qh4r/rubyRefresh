@@ -1,10 +1,23 @@
-<h2 class="center">Tytuł: <%= @article.title %></h2>
+<h2 class="center"><%= @article.title %></h2>
 
 <div class="well col-xs-8 col-xs-offset-2">
   <h4 class="center"><strong>Opis:</strong></h4>
   <hr>
   <%= simple_format(@article.description) %>
 </div>
+<% if @article.user %>
+    <div class="row">
+      <ul class="listing horizontal-list">
+        <div class="row">
+          <div class=" col-md-2 col-md-offset-8">
+            <li>Autor: </li>
+            <li><%= link_to gravatar_for(@article.user, size: 20), user_path(@article.user) %></li>
+            <li class="article-title"><%= link_to @article.user.username, user_path(@article.user) %></li>
+          </div>
+        </div>
+      </ul>
+    </div>
+<% end %>
 <div class="col-xs-8 col-xs-offset-2">
   <%= link_to "Wróć", articles_path, class: 'btn btn-info' %>
   <%= link_to "Edytuj", edit_article_path(@article), class: 'btn btn-primary' %>
