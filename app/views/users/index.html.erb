@@ -3,3 +3,5 @@
 <% @users.each do |u| %>
 <%= render 'users/user_stamp', user: u %>
 <% end %>
+<%= will_paginate(@users, :renderer => WillPaginate::ActionView::LinkRenderer, next_label: 'Nastęni', previous_label: 'Poprzedni', class: 'center') %>
+
