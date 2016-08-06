@@ -1,0 +1,33 @@
+<h1 class="center">Logowanie</h1>
+<div class="row">
+  <%= form_for :session, html: {class: 'form-horizontal', role: :form}, url: login_path do |s| %>
+      <div class="form-group">
+        <div class="control-label col-sm-2">
+          <%= s.label 'Email' %>
+        </div>
+        <div class="col-sm-8">
+          <%= s.text_field :email, class: 'form-control', autofocus: true %>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="control-label col-sm-2">
+          <%= s.label 'Hasło' %>
+        </div>
+        <div class="col-sm-8">
+          <%= s.password_field :password, class: 'form-control', autocomplete: 'off' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <% unless @error_msg.empty? %>
+            <div class="col-sm-6 col-sm-offset-3 center alert alert-danger">
+              <p><%= @error_msg %></p>
+            </div>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+          <%= s.submit 'Zaloguj', class: 'btn btn-lg btn-info' %>
+        </div>
+      </div>
+  <% end %>
+</div>
