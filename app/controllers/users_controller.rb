@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :find_user_by_id, only: [:show, :edit, :update, :destroy]
-  before_action :restrict_logged_in
-  before_action :restrict_self, except: [:index, :show]
+  before_action :restrict_logged_in, except: [:new, :create]
+  before_action :restrict_not_logged_in, only: [:new, :create]
+  before_action :restrict_self, only: [:edit, :destroy]
 
   def show
     @articles = @user.articles.paginate(page: params[:page], per_page: 5)
@@ -19,6 +20,7 @@ class UsersController < ApplicationController
     @user = User.new(deserialize_user)
     if @user.save
       flash[:success] = 'Utworzono użytkownika'
+      session[:user_id] = @user.id
       redirect_to root_path
     else
       render :new
@@ -63,6 +65,10 @@ class UsersController < ApplicationController
 
   def restrict_logged_in
     redirect_to login_path unless is_user_logged_in?
+  end
+
+  def restrict_not_logged_in
+    redirect_to users_path if is_user_logged_in?
   end
 
 end
