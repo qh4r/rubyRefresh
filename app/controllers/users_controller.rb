@@ -42,6 +42,8 @@ class UsersController < ApplicationController
   def destroy
     if @user.destroy
       flash[:success] = 'Usunięto użytkownika'
+      flash[:info] = 'i wylogowano' if active_user&.id == @user.id
+      session[:user_id] = nil if active_user&.id == @user.id
     else
       flash[:info] = 'Wystąpił błąd, niepowodzenie'
     end
@@ -50,7 +52,7 @@ class UsersController < ApplicationController
 
   private
   def deserialize_user
-    params.require(:user).permit(:username, :email, :password)
+    params.require(:user).permit(:username, :email, :password, active_user_is_admin? ? :is_admin : nil)
   end
 
   def find_user_by_id
@@ -60,7 +62,7 @@ class UsersController < ApplicationController
   end
 
   def restrict_self
-    redirect_to users_path unless active_user_id_match?(@user.id)
+    redirect_to users_path unless active_user_admin_or_id_match?(@user.id)
   end
 
   def restrict_logged_in

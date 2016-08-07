@@ -27,6 +27,16 @@
           <%= u.password_field :password, class: 'form-control' %>
         </div>
       </div>
+      <% if active_user_is_admin? %>
+        <div class="form-group">
+          <div class="control-label col-sm-2">
+            <%= u.label 'Admin' %>
+          </div>
+          <div class="col-sm-8">
+            <h4><%= u.check_box :is_admin, class: 'checkbox' %></h4>
+          </div>
+        </div>
+      <% end %>
       <div class="form-group">
         <div class="col-sm-10 col-sm-offset-2">
           <%= u.submit @user.new_record? ? 'Utwórz' : 'Zaktualizuj', class: 'btn btn-lg btn-info' %>

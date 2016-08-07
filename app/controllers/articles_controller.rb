@@ -76,7 +76,7 @@ class ArticlesController < ApplicationController
   def restrict_logged_in_and_owner
     if !is_user_logged_in?
       redirect_to articles_path
-    elsif @article && !active_user_id_match?(@article.user_id)
+    elsif @article && !active_user_admin_or_id_match?(@article.user_id)
       redirect_to articles_path
     end
   end

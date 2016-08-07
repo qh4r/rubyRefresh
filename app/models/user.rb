@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  has_many :articles
+  # dependant: :destroy to kaskada delete na usunieciu
+  has_many :articles, dependent: :destroy
 
   # rownowazne
   # before_save {self.email.downcase!}

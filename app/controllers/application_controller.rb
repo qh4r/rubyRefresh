@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   #dzieki temu metody dostepne sa w widokach uzywajacych kontroler dziedziczacy ten
-  helper_method :active_user, :is_user_logged_in?, :active_user_id_match?
+  helper_method :active_user, :is_user_logged_in?, :active_user_admin_or_id_match?, :active_user_is_admin?
 
   def active_user
     # taki fajny skurtowiec ||= oznacza dokladnie to
@@ -34,8 +34,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def active_user_id_match?(id)
-    is_user_logged_in? && active_user.id == id
+  def active_user_admin_or_id_match?(id)
+    is_user_logged_in? && (active_user.id == id || active_user.is_admin)
+  end
+
+  def active_user_is_admin?
+    is_user_logged_in? && active_user.is_admin
   end
 
 end

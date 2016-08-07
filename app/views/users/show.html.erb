@@ -4,8 +4,11 @@
     <%= gravatar_for @user, size: 120 %>
   </div>
 </div>
-<% if active_user_id_match?(@user.id) %>
-    <h5 class="center"><%= link_to 'Edytuj dane', edit_user_path(@user), class: 'btn btn-warning btn-lg' %></h5>
+<% if active_user_admin_or_id_match?(@user.id) %>
+    <h5 class="center">
+      <%= link_to 'Edytuj dane', edit_user_path(@user), class: 'btn btn-warning btn-lg' %>
+      <%= link_to 'Usuń', user_path(@user), method: :delete, class: 'btn btn-danger btn-lg', data: {confirm: "Czy napewno chcesz usunąć użytkownika #{@user.username}?"} %>
+    </h5>
 <% end %>
 <h4 class="center">
   Artykuły należące do <%= @user.username %>

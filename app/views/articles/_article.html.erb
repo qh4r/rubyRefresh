@@ -12,7 +12,7 @@
         </small>
       </div>
     </div>
-    <% if active_user_id_match?(article.user_id) %>
+    <% if active_user_admin_or_id_match?(article.user_id) %>
         <hr/>
         <div class="article-actions">
           <%= link_to "Edytuj", edit_article_path(article), class: 'btn btn-xs btn-primary' %>
