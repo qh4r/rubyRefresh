@@ -11,4 +11,31 @@ class ApplicationController < ActionController::Base
       format.any { head :not_found }
     end
   end
+
+  #dzieki temu metody dostepne sa w widokach uzywajacych kontroler dziedziczacy ten
+  helper_method :active_user, :is_user_logged_in?, :active_user_id_match?
+
+  def active_user
+    # taki fajny skurtowiec ||= oznacza dokladnie to
+    # (@active_user || @active_user = User.find(session[:user_id])) if session[:user_id]
+    @active_user ||= User.find(session[:user_id]) if session[:user_id]
+  rescue
+    nil
+  end
+
+  def is_user_logged_in?
+    !!active_user
+  end
+
+  def require_user
+    unless is_user_logged_in?
+      flash[:danger] = 'Musisz być zalogowany by uzyskać dostęp'
+      redirect_to root_path
+    end
+  end
+
+  def active_user_id_match?(id)
+    is_user_logged_in? && active_user.id == id
+  end
+
 end

@@ -2,8 +2,13 @@ class ArticlesController < ApplicationController
   # before filter to to samo co before_action ale sprzed rails 4.0
   # before_filter :set_article_param, only: [:edit, :update, :show]
   before_action :set_article_param, only: [:edit, :update, :show]
+  before_action :restrict_logged_in_and_owner, except: [:show, :index]
 
   def new
+    unless is_user_logged_in?
+      flash[:info] = 'Musisz być zalogowany by mieć dostęp do tej aktywności'
+      redirect_to login_path
+    end
     @article = Article.new
   end
 
@@ -16,7 +21,7 @@ class ArticlesController < ApplicationController
     #render plain: params[:article]
 
     @article = Article.new(article_parsed)
-    @article.user = User.first
+    @article.user = active_user
     if @article.save
       flash[:success] = "Utworzono z powodzeniem"
       redirect_to article_path(@article)
@@ -68,6 +73,13 @@ class ArticlesController < ApplicationController
   end
 
   private
+  def restrict_logged_in_and_owner
+    if !is_user_logged_in?
+      redirect_to articles_path
+    elsif @article && !active_user_id_match?(@article.user_id)
+      redirect_to articles_path
+    end
+  end
 
   def set_article_param
     @article = Article.find(params[:id])

@@ -1,7 +1,9 @@
 class SessionsController < ApplicationController
 
+  before_action :logged_in_redirect, only: [:new, :create]
+
   def new
-    debugger
+    # debugger
     @error_msg = String.new
   end
 
@@ -28,6 +30,10 @@ class SessionsController < ApplicationController
     session[:user_id] = nil;
     flash[:info] = 'Wylogowano'
     redirect_to root_path
+  end
+
+  def logged_in_redirect
+    redirect_to articles_path if is_user_logged_in?
   end
 
 end

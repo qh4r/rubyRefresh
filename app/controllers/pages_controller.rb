@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    "test"
+    redirect_to articles_path if self.is_user_logged_in?
   end
 
   def about
