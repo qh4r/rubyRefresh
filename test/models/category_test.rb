@@ -1,5 +1,6 @@
 require 'test_helper'
 
+#modul ActiveSupport zawiera mockupy dla active Directory
 class CategoryTest < ActiveSupport::TestCase
 
   def setup
