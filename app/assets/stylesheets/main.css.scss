@@ -95,3 +95,9 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
     display: inline-block;
   }
 }
+
+.field_with_errors {
+  input, textarea {
+    border: solid red;
+  }
+}
