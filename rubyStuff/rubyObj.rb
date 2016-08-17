@@ -60,12 +60,20 @@ class Peasant < Person
   end
 end
 
+#w taki sposob utworzone klasy dzialaja jak partiale i rozszerzeaja sie
+class Peasant < Person
+  def cook
+    puts :cookin
+  end
+end
+
 #wszystko musi byc inicjalizowane przed uzyciem
 
 user = King.new('Rafał')
 user2 = Lord.new('Asia', 'asia@o2.pl')
 user3 = Peasant.new('Tomasz')
 user3.work
+user3.cook
 puts Person
 
 puts Person.ancestors.reduce('') {

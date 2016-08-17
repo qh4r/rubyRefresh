@@ -86,5 +86,6 @@ Rails.application.routes.draw do
 
   resources :categories, except: [:destroy]
 
+  resource :categories
 
 end
