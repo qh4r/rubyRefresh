@@ -1,5 +1,7 @@
 class CategoriesController < ApplicationController
 
+  before_action :ensure_logged_in, except: [:index, :show]
+
   def index
     @categories = Category.paginate(page: params[:page], per_page: 5)
   end
@@ -26,6 +28,10 @@ class CategoriesController < ApplicationController
   private
   def parse_category_params
     params.require(:category).permit(:name)
+  end
+
+  def ensure_logged_in
+    self.active_user_is_admin? || redirect_to(login_path)
   end
 
 end

@@ -19,14 +19,18 @@
         <% if is_user_logged_in? %>
             <li><%= link_to 'Użytkownicy', users_path %><span class="sr-only">(current)</span></li>
         <% end %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Skróty<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Nowy Artykuł', new_article_path %></li>
-            <li role="separator" class="divider"></li>
+        <li><%= link_to 'Kategorie', categories_path %></li>
+        <% if is_user_logged_in? %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Skróty<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to 'Nowy Artykuł', new_article_path %></li>
+                <li><%= link_to 'Nowa Kategoria', new_category_path %></li>
+                <li role="separator" class="divider"></li>
 
-          </ul>
-        </li>
+              </ul>
+            </li>
+        <% end %>
       </ul>
       <!--<form class="navbar-form navbar-left" role="search">-->
       <!--<div class="form-group">-->
@@ -36,7 +40,7 @@
       <!--</form>-->
       <ul class="nav navbar-nav navbar-right">
         <% if is_user_logged_in? %>
-            <li><%= link_to 'Moj Profil', user_path(active_user)%></li>
+            <li><%= link_to 'Moj Profil', user_path(active_user) %></li>
             <li><%= link_to 'Wyloguj', logout_path, method: :delete %></li>
         <% else %>
             <li><%= link_to 'Rejestracja', signup_path %></li>
