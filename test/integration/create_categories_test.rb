@@ -4,7 +4,7 @@ class CreateCategoriesTest < ActionDispatch::IntegrationTest
 
   def setup
     user = User.create(username: 'admin', password: 'adminadmin', email: 'admin@admin.pl', is_admin: true)
-    post login_path, session: {email: user.email, password: user.password}
+    sign_in_as user
   end
 
   test 'get new category form and create category' do
