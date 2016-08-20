@@ -12,6 +12,13 @@
         </small>
       </div>
     </div>
+    <% if article.categories.any? %>
+        <ul class="horizontal-list categories-list">
+          <% article.categories.each do |category| %>
+              <%= link_to category.name, category_path(category), class: 'btn btn-sm btn-info' %>
+          <% end %>
+        </ul>
+    <% end %>
     <% if active_user_admin_or_id_match?(article.user_id) %>
         <hr/>
         <div class="article-actions">

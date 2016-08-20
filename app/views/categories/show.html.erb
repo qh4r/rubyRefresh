@@ -1,1 +1,6 @@
 <h1 class="center"><%= @category.name %></h1>
+
+<%= render partial: 'articles/article', collection: @articles, as: :article %>
+
+<%= will_paginate(@articles, render: WillPaginate::ActionView::BootstrapLinkRenderer,
+                  next_label: 'Następne', previous_label: 'Poprzednie', class: :center) %>
