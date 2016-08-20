@@ -89,7 +89,8 @@ class ArticlesController < ApplicationController
   end
 
   def article_parsed
-    output = params.require(:article).permit(:title, :description)
+    # cos_tam: [] oznacza ze parametr bedzie tablica
+    output = params.require(:article).permit(:title, :description, category_ids: [])
     p "PROCESSING ====>"
     p output
     output
