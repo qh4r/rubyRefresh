@@ -55,6 +55,8 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-root 'welcome#index'
+  root 'welcome#index'
+
+  get 'my_portfolio', to: 'users#my_portfolio'
 
 end

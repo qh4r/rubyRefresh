@@ -17,6 +17,8 @@ gem 'coffee-rails', '~> 4.1.0'
 # rake db:migrate
 gem 'devise'
 
+gem 'stock_quote'
+
 # rails generate bootstrap:install static
 # rails g bootstrap:layout application
 gem 'twitter-bootstrap-rails'
