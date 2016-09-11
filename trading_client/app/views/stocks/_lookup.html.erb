@@ -19,6 +19,8 @@
         <strong>Symbol:</strong> <%= @stock.ticker %>
         <strong>Nazwa:</strong> <%= @stock.name %>
         <strong>Cena:</strong> <%= @stock.price %>
+        <%= link_to 'Dodaj do śledzonych', user_stocks_path(user: current_user, stock_ticker: @stock.ticker, stock_id: @stock.id || ''), method: :post ,
+                    class: 'btn btn-xs btn-success'%>
       </div>
   <% end %>
   <div id="stock-lookup-errors">
