@@ -13,16 +13,15 @@ class Testy
     p "test: #{@id}"
   end
 
-  #TAKA METOODA JEST WYWOLYWANA PRZY PIERWSZYM UWTWORZENIU KLASY TEGO TYPU - JAK KONSTRUKTOR STATYCZNY w c#
   def self.dupa_test(cos)
     p "\n \n jakis tam tekst sobie o #{cos}"
   end
 
+  #TAKA METOODA JEST WYWOLYWANA PRZY WCZYTYWANIU PLIKU (I KLASY)
   dupa_test('haha')
 
 end
 
-#dupa test bedzie wywolane tylko raz
 x = Testy.new
 y = Testy.new
 z = Testy.new

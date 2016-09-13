@@ -19,11 +19,25 @@
         <strong>Symbol:</strong> <%= @stock.ticker %>
         <strong>Nazwa:</strong> <%= @stock.name %>
         <strong>Cena:</strong> <%= @stock.price %>
-        <%= link_to 'Dodaj do śledzonych', user_stocks_path(user: current_user, stock_ticker: @stock.ticker, stock_id: @stock.id || ''), method: :post ,
-                    class: 'btn btn-xs btn-success'%>
+        <% if current_user.can_add_stock?(@stock.ticker) %>
+            <%= link_to 'Dodaj do śledzonych', user_stocks_path(user: current_user, stock_ticker: @stock.ticker, stock_id: @stock.id || ''), method: :post,
+                        class: 'btn btn-xs btn-success' %>
+        <% else %>
+          <span class="label label-default">
+            <%= current_user.under_stock_limit? ? 'Możesz śledzić maksymalnie 10 zasobów' : 'Zasób o tym kodzie został już dodany'  %>
+          </span>
+        <% end %>
       </div>
   <% end %>
   <div id="stock-lookup-errors">
-
   </div>
+</div>
+<div id="user-stocks">
+  <% @user_stocks.each do |stock| %>
+      <div id="stock-lookup-results" class="well results-block">
+        <strong>Symbol:</strong> <%= stock.ticker %>
+        <strong>Nazwa:</strong> <%= stock.name %>
+        <strong>Cena:</strong> <%= stock.price %>
+      </div>
+  <% end %>
 </div>

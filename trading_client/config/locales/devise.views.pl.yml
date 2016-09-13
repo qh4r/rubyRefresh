@@ -42,7 +42,9 @@ pl:
       new:
         sign_up: Zarejestruj się
     sessions:
-      new:
+        signed_in: Logowanie powiodło się
+        signed_out: Wylogowano z powodzeniem
+        already_signed_out: Już wylogowano
         sign_in: Zaloguj się
     shared:
       links:
