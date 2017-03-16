@@ -68,3 +68,7 @@ short = ->(a, b) { a + b }
 puts short.call(2, 3)
 
 
+times_two = -> (x) { x*2 }
+#do mapa tez trzeba przekazac lambde ale moze to tez byc tez funckcja na typie okreslona symbolem
+p ["asdsa", "fzxcxzcxz"].map(&:length).map(&times_two)
+

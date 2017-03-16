@@ -13,6 +13,10 @@ def random_select(array, n)
   array.shuffle.take(n)
 end
 
+def random_select2(array, n)
+  n.times.reduce([]) {|o,x| o.push(array[rand(array.length-1)])}
+end
+
 #Palindromes with no spaces
 def palindrome?(sentence)
   no_spaces_lower = sentence.gsub(' ','').downcase
