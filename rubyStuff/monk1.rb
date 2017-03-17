@@ -19,8 +19,8 @@ end
 
 #Palindromes with no spaces
 def palindrome?(sentence)
-  no_spaces_lower = sentence.gsub(' ','').downcase
-  no_spaces_lower == no_spaces_lower.split('').reverse.join
+  word = sentence.downcase.gsub(' ','')
+  word == word.reverse
 end
 
 #Find non-duplicate values in an Array
@@ -28,6 +28,10 @@ def non_duplicated_values(values)
   values.reduce(Hash.new(0)){|hash, key| hash[key]+=1; hash}
       .select {|k, v| v == 1}
       .keys
+end
+
+def non_duplicated_values2(values)
+  values.select {|x| values.count(x) == 1}
 end
 
 #Check if all elements in an array are Fixnum
@@ -41,6 +45,11 @@ end
 def kaprekar?(k)
   first = (k ** 2).to_s
   first.slice!(-k.to_s.length..-1).to_i + first.to_i == k
+end
+
+#cubes
+def sum_of_cubes(a, b)
+  (a..b).reduce(0){|s,x| s + x**3}
 end
 
 #Contrast check, methods calling
@@ -81,6 +90,10 @@ def number_shuffle(number)
   number.to_s.split('').permutation.to_a.map{|x| x.join('').to_i}
 end
 
+def number_shuffle2(number)
+  number.to_s.split('').permutation.reduce([]) {|s,x| s.push(x.join('').to_i)}
+end
+
 #reduce table of hashes
 class Restaurant
   def initialize(menu)
@@ -93,7 +106,11 @@ class Restaurant
     #troche syf ale szybsze
     orders.reduce(0) {|sum, x| sum += x.reduce(0){|sum, arr| sum += @menu[arr[0]] * arr[1] }}
   end
-end
+
+  #dekompozycja slownika
+  def cost2(*orders)
+    orders.reduce(0) {|sum, x| sum += x.reduce(0){|sum, (k,v)| sum += @menu[k] * v}}
+  end
 
 #Run block or default action if no block provided
 class MyArray
@@ -106,5 +123,16 @@ class MyArray
   def sum(initial_value = 0, &param)
     @array.reduce(initial_value) {|sum, x| sum += param.nil? ? x : param.call(x) }
   end
+
+  def sum2(initial_value = 0)
+    return array.inject(:+) + initial_value unless block_given?
+    sum = initial_value
+    array.each {|n| sum += yield(n) }
+    sum
+  end
 end
 
+#check fixnums
+def array_of_fixnums?(array)
+  array.all? {|x| x.is_a? Fixnum}
+end
