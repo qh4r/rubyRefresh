@@ -41,8 +41,22 @@ class Animal
   def move
     "I can move"
   end
+
+  #wazne by alias byl deklarowany gdy metoda juz istnieje ! - wszystko interpretowane z gory na dol
+  alias :can :move
 end
 
+class Bird < Animal
+  def move
+    "#{super} by flying"
+  end
+end
+
+class Penguin < Bird
+  def move
+    "#{can} by swimming"
+  end
+end
 class Human < Animal
   def move
     "#{super} by walking"
