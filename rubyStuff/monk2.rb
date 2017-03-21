@@ -64,3 +64,72 @@ class Human < Animal
 end
 
 #2
+
+#alt static method
+
+class Item
+  @@dupa_global = 'no dupa' #statyczna zmienna
+
+  class << self
+    def show
+      puts "Class method show invoked"
+    end
+  end
+
+  def self.do
+    p "do do #{@@dupa_global}"
+  end
+end
+
+Item.show
+Item.do
+
+
+class ApplicationConfiguration
+  @@static_map = Hash.new(0) # w nawiasie domyslna wartosc
+  def self.set(property_name, value)
+    @@static_map[property_name] = value
+  end
+
+  def self.get(property_name)
+    @@static_map[property_name]
+  end
+end
+
+ApplicationConfiguration.set("name", "Demo Application")
+ApplicationConfiguration.set("version", "0.1")
+
+p ApplicationConfiguration.get("version")
+
+class ApplicationConfiguration
+  @configuration = {}
+
+  def self.set(property, value)
+    @configuration[property] = value
+  end
+
+  def self.get(property)
+    @configuration[property]
+  end
+end
+
+class ERPApplicationConfiguration < ApplicationConfiguration
+  @configuration = {}
+end
+
+class WebApplicationConfiguration < ApplicationConfiguration
+  @configuration = {}
+end
+
+ERPApplicationConfiguration.set("name", "ERP Application")
+WebApplicationConfiguration.set("name", "Web Application")
+
+p ERPApplicationConfiguration.get("name")
+p WebApplicationConfiguration.get("name")
+
+p ApplicationConfiguration.get("name")
+
+#zmienne z @@ sa dziedziczone dla wszystkich klas (wspoldziela wartosc wszystkich dzieci itd)
+# zmienne z @ sa unikalne dla dzieci i klasy bazowej (wciaz statyczne jesli deklarowane nie w inicjalizacji)
+# @asd - class instance variable -- - dostepne tylko metodach klasy (self.fun) klasie
+# @@asd  - class variable  -- dostepne metodach kalsy i instancji
