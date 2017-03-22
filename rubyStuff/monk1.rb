@@ -111,6 +111,7 @@ class Restaurant
   def cost2(*orders)
     orders.reduce(0) {|sum, x| sum += x.reduce(0){|sum, (k,v)| sum += @menu[k] * v}}
   end
+end
 
 #Run block or default action if no block provided
 class MyArray
@@ -135,4 +136,65 @@ end
 #check fixnums
 def array_of_fixnums?(array)
   array.all? {|x| x.is_a? Fixnum}
+end
+
+
+#ruby porownuje obiekty (funkcja .eql?) przez generowanie hashy w taki sposob:
+p 2.hash
+p "test".hash
+
+#porownujac dobrze nadpisywac hash a zawsze napisywac eql? i == bo niektore metody uzywaja eql
+class Item
+  attr_reader :item_name, :qty
+
+  def initialize(item_name, qty)
+    @item_name = item_name
+    @qty = qty
+  end
+
+  def to_s
+    "Item (#{@item_name}, #{@qty})"
+  end
+
+  def hash
+    self.item_name.hash ^ self.qty.hash #XOR dwoch haszy
+  end
+
+  def eql?(other_item)
+    puts "#eql? invoked"
+    @item_name == other_item.item_name && @qty == other_item.qty
+  end
+
+  def ==(other)
+    puts "== !"
+    eql?(other)
+  end
+
+end
+
+p Item.new("abcd", 1).hash
+p (Item.new("abcd", 1) == Item.new("abcd", 1))
+items = [Item.new("abcd", 1), Item.new("abcd", 1), Item.new("abcd", 1)]
+p items.uniq
+
+class Item
+  def initialize(item_name, quantity, supplier_name, price)
+    @item_name = item_name
+    @quantity = quantity
+    @supplier_name = supplier_name
+    @price = price
+  end
+
+  def hash
+    @item_name.hash ^ @quantity.hash ^ @suplier_name.hash ^ @proce.hash
+  end
+
+  def == (other)
+    hash == other.hash
+  end
+
+  def eql? (other)
+    self == other
+  end
+  # implement ==, eql? and hash
 end
