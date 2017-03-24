@@ -198,3 +198,55 @@ class Item
   end
   # implement ==, eql? and hash
 end
+
+#o dziwo puts wypisuje wartosc .to_s Z AUTOMATU, a p wywoluje metode inspec tez  Z AUTOMATU
+class Item2
+  def inspect
+    "Result of inspect"
+  end
+end
+
+puts Item2.new
+puts Item2.new.to_s
+p Item2.new
+
+#serialization
+
+class Ogre
+  attr_accessor :strength, :speed, :smell
+  def initialize(strength, speed, smell)
+    @strength = strength
+    @speed = speed
+    @smell = smell
+  end
+end
+
+class Dragon
+  attr_accessor :strength, :speed, :color
+  def initialize(strength, speed, color)
+    @strength = strength
+    @speed = speed
+    @color = color
+  end
+end
+
+class Fairy
+  attr_accessor :strength, :speed, :intelligence
+  def initialize(intelligence)
+    @strength = 1
+    @speed = 42
+    @intelligence = intelligence
+  end
+end
+
+def save_game(characters)
+  yaml = YAML::dump(characters)
+  game_file = GameFile.new("saved.yaml")
+  game_file.write(yaml)
+end
+
+def load_game
+  game_file = GameFile.new("saved.yaml")
+  yaml = game_file.read
+  YAML::load(yaml)
+end
