@@ -364,3 +364,123 @@ def degrassi_couples2
   all = CHARACTERS.product(CHARACTERS) #permutacje?
   all.reject {|c| c.first == c.last}
 end
+
+
+#NIE MOZNA EXTENDOWAC I INCLUDOWAC METOD STATYCZNYCH
+module Foo
+  #sygnatura included wymaga klassy jako parametru
+  def self.included(klass)
+    p "Foo mixin initialized in #{klass}"
+  end
+
+  def method_in_module
+    "The method defined in the module invoked"
+  end
+
+  def self.static
+    "call of mixed in static"
+  end
+end
+
+module Test
+  #wywolywane w momencie includowania
+  def self.included(klass)
+    p "Test mixin initialized in #{klass}"
+  end
+
+  def included_method
+    p "included in test"
+  end
+end
+
+class Bar
+  include Test
+
+  # extend pozwala wywolac include na instancji, mozna tez poza konstruktorem
+  def initialize
+    self.extend Foo
+  end
+end
+
+#EXTEND MOZNA TEZ UZYC DO DODAWANIA METOD DO KLAS
+Bar.extend Test # doda included_method do Bar statycznie
+
+
+x = Bar.new
+x.method_in_module
+x.included_method
+
+#da sie robic takie cuda:
+# to standardowy sposob na pisanie modulow ktore moga dodawac metody na poziomie klasy (statyczne metody)
+module Foo
+  def self.included(klass)
+    klass.extend ClassMethods
+  end
+
+  module ClassMethods
+    def guitar
+      "gently weeps"
+    end
+  end
+end
+
+class Bar
+  include Foo
+end
+
+puts Bar.guitar
+
+
+module Foo
+  # callback wywolywany podczas wywolywania extend tak samo jak include -> included
+  def self.extended(base)
+    puts "Class #{base} has been extended with module #{self} !"
+  end
+
+  def test
+    p "method static in extending class"
+  end
+end
+
+class Bar
+  # w ten sposob dodajemy metody Foo jako statyczne na Bar (class level)
+  extend Foo
+end
+
+Bar.test
+
+
+# da sie wywolywac funkcje na modułach jesli sa na nich zadeklarowane jako statyczne
+# your code here
+module Math
+  def self.square (input)
+    input*input
+  end
+end
+
+puts Math.square(6)
+
+
+class UserDataAccess
+  attr_accessor :db
+
+  def initialize
+    @db = Database.new
+  end
+
+  def find_user(name)
+    @db.find("SELECT * FROM USERS WHERE NAME = '%'", name)
+  rescue Exception => e #dziwny format
+    puts "A database error occurred."
+    p nil.each {|x| decode(x)} rescue "now it's ok" # alternatywny format rescue zwraca wartosc podana po prawej stronie
+  ensure
+    @db.close
+  end
+end
+
+#przyklady throwow
+def string_slice (*args)
+  raise ArgumentError if args.length > 5
+  raise IndexError if args.any? {|x| x.length < 3}
+  args.map {|x| x[0,3]}
+end
