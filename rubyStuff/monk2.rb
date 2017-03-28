@@ -484,3 +484,25 @@ def string_slice (*args)
   raise IndexError if args.any? {|x| x.length < 3}
   args.map {|x| x[0,3]}
 end
+
+#BACKTRACE listuje call stack
+def stack_print
+  begin
+    p eval "(40 + 2) / 2"
+    p eval "(40 + 2) \ 2"
+  rescue SyntaxError => error
+    puts error.backtrace
+  end
+end
+
+stack_print
+
+# good practice to extendowanie standard error a nie exception
+class MyCustomError < StandardError
+end
+
+# raising errors example
+def robe(type)
+  raise KasayaError.new() if type.is_a?(String) && type == "Kasaya"
+  "Dharmaguptaka's Kasaya Robe"
+end
