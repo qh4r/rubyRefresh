@@ -36,3 +36,6 @@ def validate4(n)
     sum + (index.odd? && digit < 9 ? digit * 2 % 9 : digit)
   } % 10 == 0
 end
+
+#flatmap example
+res = ([1,2,3,4,5].map.with_index {|x, i| (0..i).to_a.map.with_index {|y,j| y * j * i} }).reduce(&:+)
