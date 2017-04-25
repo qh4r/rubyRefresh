@@ -460,7 +460,7 @@ end
 
 puts Math.square(6)
 
-
+cj
 class UserDataAccess
   attr_accessor :db
 
@@ -506,3 +506,100 @@ def robe(type)
   raise KasayaError.new() if type.is_a?(String) && type == "Kasaya"
   "Dharmaguptaka's Kasaya Robe"
 end
+
+test = 	%Q[This %Q syntax is the ugliest one.
+#{numerator} out of #{denominator} "dentists" agree.]
+#%Q[] pozwala stworzyc interpolujacy string w ktorym swobodnie mozna uzywac ""
+arr =   %w[With this double-u shorthand it wasn't very hard at all to type out this list of words. Heck, I was even able to use double-quotes like "these"!]
+# %[] rozbija string na tablice slow
+
+range1 = (1..10).to_a # 10 elementow 1-10
+range2 = (1...10).to_a # 9 elementow 1-9 (one less syntax)
+range3 = ("a".."z").to_a # litery od a -z
+range4 = ("A".."z").to_a # litery od a -z duze i male + kilka znakow pomiedy nimi
+
+#SCOPY
+
+class Shoe
+  def initialize(toes = 1)
+    @toes = toes
+  end
+
+  puts "inside the class: #{defined?(@toes).inspect}"
+
+  def i_can_haz_toes
+    puts "inside the instance: #{defined?(@toes).inspect}"
+  end
+end
+
+class Foot
+  def initialize(toes = 5)
+    @toes = toes
+  end
+
+  puts "inside the class: #{defined?(@toes).inspect}"
+
+  def i_can_haz_toes
+    puts "inside the instance: #{defined?(@toes).inspect}"
+  end
+end
+
+samurai_boot = Shoe.new(2)
+samurai_boot.i_can_haz_toes
+
+left = Foot.new
+left.i_can_haz_toes
+
+puts "in the `main` class: #{defined?(@toes).inspect}"
+
+# w powyzszym zazdialaja tylko puty w funkcjach, pola nie sa statyczne i sa inicjalizowane w konstruktorach
+
+# scopy 2
+
+on_the_inside = "test"
+on_the_outside = "test"
+
+def scope_the_scope
+  on_the_inside = "oh. hi, friends."
+  puts "from the inside: #{on_the_inside} -- #{defined?(on_the_inside).inspect}"
+  puts "can get outside: #{defined?(on_the_outside).inspect}"
+end
+
+scope_the_scope
+puts "from the outside: #{on_the_inside} --  #{defined?(on_the_inside).inspect}"
+
+# ten przyklad zwroci
+# "oh. hi, friends."
+# can get outside: nil
+# "no change"
+# funkcja nie siega do zewnetrzengo scopa. nigdy, NIE MA DOMKNIEC on the outside nie moze byc odczytane wewnatrz scope_the_scope
+
+
+# z $ deklarujemy zmienne globalen - sa dostepne doslownie wszedzie (od miejsca deklaracji)
+
+$global = "ALLLL"
+module Somewhere
+  class Hidden
+    $everywhere = "global love"
+    p $global
+  end
+end
+
+module Somewhere
+  class CloseTo
+    def the_heart
+      $everywhere
+    end
+  end
+end
+
+def call_global
+  p "from function: #{$global}"
+end
+
+call_global
+puts Somewhere::CloseTo.new.the_heart
+
+#przydatne globale
+# $@ - ostatni error
+# $~ - ostatni match regular expression
