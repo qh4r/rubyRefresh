@@ -396,7 +396,7 @@ end
 class Bar
   include Test
 
-  # extend pozwala wywolac include na instancji, mozna tez poza konstruktorem
+  #  d pozwala wywolac include na instancji, mozna tez poza konstruktorem
   def initialize
     self.extend Foo
   end
@@ -603,3 +603,135 @@ puts Somewhere::CloseTo.new.the_heart
 #przydatne globale
 # $@ - ostatni error
 # $~ - ostatni match regular expression
+
+
+
+#stale zacyznaja sie z duzej litery
+Cat = ' cat '
+TEST = 1
+
+# Klasy i moduly musza byc Stalymi (z duzej litery) ale mozliwe jest obejscie tego
+fence = Module.new do
+  def speak
+    "I'm trapped!"
+  end
+end
+
+class Sheep
+  def speak
+    "Baaaaahhhhh."
+  end
+end
+
+dolly = Sheep.new
+dolly.extend(fence)
+puts dolly.speak
+
+# ^ w ten sposob mozemy przekazywac fence jak zmienna i wlasnie uzywac jej do extendowania
+
+# tak samo mozna utworzyc klase w zmiennej
+
+def awkward_sheep
+  sheep = Class.new do
+    def talk
+      "quite crazy isn't it"
+    end
+
+    def speak
+      "Bah."
+    end
+  end
+end
+
+awkward_sheep.new.talk
+
+# problem jest z modulami, w modułach da sie odwoływać tylko do stałych!!!
+
+module Fence
+  Sheep = Class.new do
+    def speak
+      "Bah."
+    end
+  end
+end
+
+def call_sheep
+  Fence::Sheep.new.speak # odwolanie do Sheep w module Fence, Sheep musi byc stałą
+end
+
+#enumerable to moduł ktory jest implementowany przez Array, a Array map/reuce zwracaja enumerator - jak w innych jezykach
+
+
+# tak zadeklarowana klasa rozszerzy klasę Array
+class Array
+  def map_with_index(&block)
+    return self.each_with_index.map(&block) unless block.nil?
+    each_with_index
+  end
+
+  # rownowaznik
+
+  def map_with_index_short(&block) # map domyslnie zwroci enumerator jesli nie dostanie bloku
+    self.each_with_index.map(&block)
+  end
+end
+
+# DEKOMPOZYCJA
+asd = {:locke=>"4", :hugo=>"8"}
+asd.map.with_index {|(k,v), i| [k, v, i] } # taka drobna dekompozycja
+
+test = [[:locke, "4", 0, [0, 0]], [:hugo, "8", 1, [1, 2]]]
+test.map {|(a,_,b, (_, c))| [b,a,c]} # [[0, :locke, 0], [1, :hugo, 2]]  - dekompozycja tylko przy pomocy () ,
+# _ sa uzywane dla wygody i oznaczenia nieuzywanej wartosci
+
+def hash_keys(hash)
+  hash.map {|(k)| k}
+end
+
+# scan matchuje regex na calej dlugosci stringu i  zwraca tablice wynikow
+# match zmatchowal by tylko pierwsze wystapienie
+# \w  dopasowywuje znaki (litery i cyfry) bez .,-! ~ znakow specjalnych
+def occurrences(str)
+  str.scan(/\w+/).map(&:downcase).reduce({}) do |sum, w|
+    sum[w] = sum[w].nil? ? 1 : sum[w] + 1
+    sum
+  end
+end
+
+
+#all/any
+class Island
+  def initialize(candidates)
+    @candidates = candidates
+  end
+
+  def survive?
+    @candidates.none? {|x| x == "Esau"}
+  end
+
+  def safe?
+    @candidates.all? {|x| x == "Jack"}
+  end
+end
+
+union_example = ["a", "b", "a"] | ["c", "c", "a"] # ["a", "b", "c"] -  | zwraca unie bez powtórzeń
+array_intersection = [1,2,3, 1,2,3] & [1] # [1] - zwraca czesc wspolna tablic
+array_difference = [1,2,3, 1,2,3] - [1] # [2,3,2,3] - usuwa z 1 tablicy elementy z 2 tablicy
+
+
+class Order
+  GIFT_ITEMS = [Item.new(:big_white_tshirt), Item.new(:awesome_stickers)]
+  OUT_OF_STOCK_ITEMS = [Item.new(:ssd_harddisk)]
+
+  def initialize(order)
+    @order = order || []
+  end
+  #usuwa z orderu out_of stock i dodaje gifty ~~ operacje na tablicach
+  def final_order
+    @order - OUT_OF_STOCK_ITEMS  + GIFT_ITEMS
+  end
+end
+
+customer_order = Order.new([Item.new(:fancy_bag),Item.new(:ssd_harddisk)])
+
+p customer_order.final_order
