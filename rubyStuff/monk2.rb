@@ -735,3 +735,23 @@ end
 customer_order = Order.new([Item.new(:fancy_bag),Item.new(:ssd_harddisk)])
 
 p customer_order.final_order
+
+#yieldy
+class FibonacciNumbers
+  NUMBERS = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+
+  def each
+    NUMBERS.each {|x| yield x }
+  end
+end
+
+
+#WARUNKIEM KONIECZNYM do dzialania wszystkich metod Enumerable jest implementacja Enumerable oraz metody each!!!!!
+class FibonacciNumbers2
+  include Enumerable
+  NUMBERS = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+  def each &b
+    NUMBERS.each &b
+  end
+  # all your code goes here
+end
