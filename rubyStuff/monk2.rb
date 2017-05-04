@@ -755,3 +755,127 @@ class FibonacciNumbers2
   end
   # all your code goes here
 end
+
+#typy
+p 10.class #fixnum
+p (10.0).class #Float
+
+#mozna odwolywac sie do haszy po stringu albo liczbie
+c = {"asd" => 4, 6 => 12}
+p c["asd"] #4
+p c[6] #12
+
+#example
+
+class VisualAcuity
+  def initialize(subject, normal)
+    @subject = subject.to_f
+    @normal = normal.to_f
+  end
+  def can_drive?
+    (@subject / @normal) >= 0.5
+  end
+end
+
+class DrivingLicenseAuthority
+  def initialize(name, age, visual_acuity)
+    p name
+    @name = name
+    @age = age
+    @visual_acuity = visual_acuity
+  end
+
+  def valid_for_license?
+    @age >= 18
+  end
+
+  def verdict
+    if valid_for_license? and @visual_acuity.can_drive?
+      "#{@name} can be granted driving license"
+    else
+      "#{@name} cannot be granted driving license"
+    end
+  end
+end
+
+
+# end example
+
+def test_caller
+  puts "test caller"
+  puts caller #caller zwraca stacktrace
+end
+
+
+#LOGGER
+require 'logger' #import loggera
+logger = Logger.new($stdout) #logger przyjmuje IO albo plik - alternatywa STDOUT
+logger.level = Logger::DEBUG   # najnizsze severity, sa dostepne rozne
+logger.formatter = lambda do |severity, datetime, progname, msg| #opcjonalne
+  "#{datetime}: #{msg}\n"
+end
+logger.warn("This is a warning")
+logger.info("This is an info")
+
+
+#logger usage
+
+# rememeber to require logger.
+require 'logger'
+
+
+class Order
+  def initialize(order_items, customer)
+    init_logger
+    @order_items = order_items
+    @customer = customer
+    @state = :new
+    @logger.info(@customer)
+  end
+
+  def procure(vendor)
+    if @state == :new
+      @vendor = vendor
+      @state = :procured
+      @logger.info("#{@vendor} #{@state}")
+    end
+  end
+
+  def pack
+    if @state == :procured
+      @state = :packed
+      @logger.info("#{@state}")
+    else
+      @logger.error(@state)
+    end
+  end
+
+  def ship(address)
+    if @state == :packed
+      @state = :shipped
+      @shipping_address = address
+      @logger.info("#{@shipping_address} #{@state}")
+    else
+      @logger.error(@state)
+    end
+  end
+
+  def init_logger
+    @logger = Logger.new(STDOUT)
+    @logger.level = Logger::INFO
+    @logger.formatter = lambda { |_,_,_,msg| "#{msg}" }
+  end
+end
+
+order = Order.new(["mouse", "keyboard"], "Asta")
+order.procure("Awesome Supplier")
+order.pack
+order.ship("The Restaurant, End of the Universe")
+
+#prosta metoda do bechmarkow
+def benchmark
+  start_t = Time.now
+  yield
+  end_t = Time.now
+  end_t - start_t
+end
