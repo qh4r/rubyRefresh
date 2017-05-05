@@ -879,3 +879,56 @@ def benchmark
   end_t = Time.now
   end_t - start_t
 end
+
+
+#SOLUTION
+class Dish
+end
+
+class Soup < Dish
+end
+class IceCream < Dish
+end
+class ChineseGreenBeans < Dish
+end
+
+class DeliveryTray
+  DISH_BOWL_MAPPING = {
+      Soup => "soup bowl",
+      IceCream => "ice cream bowl",
+      ChineseGreenBeans => "serving plate"
+  }
+  def  initialize
+    @disches = {}
+  end
+
+  def add(dish)
+    @disches[dish.class] = (@disches[dish.class] || 0) + 1
+  end
+
+  def dishes_needed
+    "None." if !@disches.any?
+    @disches.reduce("") {|sum, (k,v)| "#{sum}#{!sum.empty? ? ', ' : ''}#{v} #{DISH_BOWL_MAPPING[k]}"}
+  end
+
+  def alt
+    @disches.map {|dish_name, count| "#{count} #{dish_name}" }.join(", ")
+  end
+end
+
+d = DeliveryTray.new
+d.add Soup.new; d.add Soup.new
+d.add IceCream.new
+
+puts d.dishes_needed # should be "2 soup bowl, 1 ice cream bowl"
+
+#klasa odziedziczona nie ejst instancja rodzica
+
+class A
+end
+
+class B < A
+end
+
+p A.new.instance_of?(A) #true
+p B.new.instance_of?(A) #false
