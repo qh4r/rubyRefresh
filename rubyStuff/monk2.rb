@@ -880,7 +880,7 @@ def benchmark
   end_t - start_t
 end
 
-
+#9.2
 #SOLUTION
 class Dish
 end
@@ -932,3 +932,110 @@ end
 
 p A.new.instance_of?(A) #true
 p B.new.instance_of?(A) #false
+
+# calss is also an object
+A.is_a?(Object) #true
+
+#9.3
+
+# mozna przekazac self jako argument domyslny
+class Object
+  def superclasses(parents = [], level = self)
+    level.superclass ? superclasses(parents << level.superclass, level.superclass) : parents
+  end
+
+  def superclasses2(klass = self.superclass)
+    return [] if klass.nil?
+    [klass] + superclasses(klass.superclass)
+  end
+end
+
+class Bar
+end
+
+class Foo < Bar
+end
+
+Foo.superclasses # wypisuje wszystkich rodzicow w tabeli
+
+#9.4
+class Foo
+  def shout
+    puts "I'm Foo"
+  end
+end
+
+foo=Foo.new
+foo.shout
+
+class Foo
+  def shout
+    puts "I'm still Foo, but I have been overridden"
+  end
+end
+foo.shout # nadpisanie uzytej klasy powoduje zmiany w juz utworzonych instancjach (dziala troche prototypowo)
+
+#da sie przypisywac metody tylko na poszczegolne instancje
+
+class Foo
+end
+
+foo=Foo.new
+def foo.shout
+  puts "Foo Foo Foo!"
+end
+foo.shout
+
+p Foo.new.respond_to?(:shout) # false - metoda respond_to? sprawdza czy metoda istnieje na obiekcie
+
+#tak naprawde def foo.shout tworzy metaklasę ktora znajduje sie w lancuchu przed rzeczywista klasa
+
+#metoda ktora sprawdza czy metoda jest metoda na pojedynczej instancji - nazywane metodami singeltonowimi
+class Object
+  def singleton_method?(method)
+    self.singleton_class.instance_methods.include?(method) and
+        not self.class.instance_methods.include?(method)
+  end
+end
+
+foo = "A string"
+def foo.shout
+  puts foo.upcase
+end
+
+# shout is a singleton method.
+p foo.singleton_method?(:shout)
+
+# przed pojawieniem sie singelton_class (ruy 1.9) nalezalo uzywac
+
+class Object
+  def metaclass
+    class << self
+      self
+    end
+  end
+end
+#pojebana skladnia ale nadpisuje self selfem z danej instacji...
+
+#9.5
+
+#clone daje kopie obiektu a standardowe kopiowanie to kopia referencji
+a = [1,2,3]
+b = a.clone
+b << 4
+
+p a
+p b
+
+x = "asd"
+x << "test"
+p x # "asdtest"
+
+#metoda freeze powoduje ze obiekt przestaje byc mutowalny
+
+#zwraca zamrożony clone
+class Object
+  def frozen_clone
+    clone.freeze
+  end
+end
