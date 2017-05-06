@@ -1039,3 +1039,25 @@ class Object
     clone.freeze
   end
 end
+
+#final solutions
+
+def location_in_hierarchy(object, method)
+  (object.class.ancestors - object.class.included_modules).reverse.find {|x| x.instance_methods.include?(method)}
+end
+
+def location_in_hierarchy(object, method)
+  klass = object.class
+  ancestors = [klass]
+  while not (superclass = klass.superclass).nil?
+    ancestors << superclass
+    klass = superclass
+  end
+  ancestors.reverse.find do |ancestor|
+    ancestor.instance_methods.include?(method)
+  end
+end
+
+def sum_of_cubes(a, b)
+  (a..b).reduce(0) {|sum, x| sum += x**3}
+end
