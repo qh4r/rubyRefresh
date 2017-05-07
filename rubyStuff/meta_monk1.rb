@@ -101,3 +101,45 @@ class Monk
     define_method("meditate_on_#{subject}") { "I know the meaning of #{subject.sub('_', ' ')}" }
   end
 end
+
+#2.0
+def test;
+  p "test test";
+end
+
+self.send(:test) # wszystko deklarowane globalnie znjaduje sie na swego rodzaju globalnym kontekscie
+# - tutaj self odnosi sie do tego
+
+self.method(:test).owner # Object -- nalezy do
+self.method(:test).receiver #main -- jest powiazana
+
+
+editor = Editor.new("class Foo; end")
+
+def auto_complete(editor)
+  editor.cursor.read do |word|
+      if word == "\n"
+        throw :eol
+    elsif editor.template.user_classes.include?(word)
+      list = eval(word.to_s).methods #eval parsuje to co mu podamy, więc jesli dostanie nazwe klasy to sparsuje referencje do niej
+      # jesli metode to referencje do metody w danym kontekscie
+
+      # zamiast evala mozna uzyc Module.const_get lub Class.const_get - class dziedziczy po module
+      build_suggestion(list)
+    elsif editor.template.context.methods.include?(word)
+      list = editor.template.context.method(word).parameters
+      build_suggestion(list)
+    end
+  end
+end
+
+def build_suggestion(list)
+  Suggestion.new(list).display
+end
+
+#2.1
+def inspect_instance_variable(class_name, variable)
+  Module.const_get(class_name).new.instance_variable_get("@#{variable}")
+end
+
+#instance_variable_get niszczy enkapsulacje
